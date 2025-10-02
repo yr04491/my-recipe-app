@@ -47,6 +47,8 @@ main {
   flex-grow: 1;
   overflow-y: auto;
   padding: 15px;
+  /* iOSでスクロールを滑らかにする */
+  -webkit-overflow-scrolling: touch; 
 }
 
 footer {
@@ -113,24 +115,23 @@ footer {
 }
 .recipe-card img {
   width: 100%;
-  height: 80%; /* ★ 変更: 画像の高さをカードの80%にする */
+  height: 80%;
   object-fit: cover;
   pointer-events: none;
 }
 .recipe-card-info {
-  padding: 10px 15px; /* ★ 変更: 上下のパディングを減らす */
+  padding: 10px 15px;
   flex-grow: 1;
-  display: flex; /* ★ 追加: flexboxで中央揃え */
-  align-items: center; /* ★ 追加: 垂直方向中央 */
-  justify-content: center; /* ★ 追加: 水平方向中央 */
-  text-align: center; /* fallback */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 .recipe-card-info h2 {
-  margin: 0; /* ★ 変更: マージンを削除 */
+  margin: 0;
   font-size: 1.3em;
   color: #333;
 }
-/* .recipe-card-info p は削除 (コメントアウトや行自体を削除) */
 
 
 /* リスト形式の画面 (献立, 在庫) */
@@ -244,4 +245,44 @@ footer {
   border-radius: 8px;
   cursor: pointer;
   align-self: flex-end;
+}
+
+/* --- レスポンシブ対応 (スマートフォン向け) --- */
+@media (max-width: 480px) {
+
+  /* ヘッダーの左右の余白を少し減らす */
+  header {
+    padding: 15px 10px;
+  }
+  
+  /* メインコンテンツの上下の余白を減らす */
+  main {
+    padding: 10px;
+  }
+
+  /* カードの高さを少し調整してフッターが見えるように */
+  .card-container {
+    height: 75%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  /* ヘッダーの文字とアイコンを少し小さく */
+  h1 {
+    font-size: 1.1em;
+  }
+  .icon-btn {
+    font-size: 1.3em;
+    gap: 10px;
+  }
+
+  /* フッターナビゲーションの文字サイズ調整 */
+  .bottom-nav a {
+    font-size: 0.8em;
+  }
+
+  /* 在庫管理フォームのレイアウトを縦並びに変更 */
+  .form-container {
+    flex-direction: column;
+  }
 }

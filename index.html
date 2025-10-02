@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>献立アプリ - ホーム</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header>
+    <h1>今日の献立候補</h1>
+    <div class="header-icons">
+      <button class="icon-btn">🔍</button>
+      <button class="icon-btn">⚙️</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="card-container">
+      </div>
+  </main>
+
+  <footer>
+    <nav class="bottom-nav">
+      <a href="index.html" class="active">ホーム</a>
+      <a href="menu.html">献立</a>
+      <a href="stock.html">在庫</a>
+      <a href="shopping-list.html">買い物リスト</a>
+    </nav>
+  </footer>
+
+  <div id="modal-overlay" class="hidden">
+    <div id="modal-content">
+      <h2 id="modal-recipe-name">レシピ名</h2>
+      <div class="modal-details">
+        <h3>材料</h3>
+        <ul id="modal-ingredients">
+          </ul>
+        <p><strong>作成時間:</strong> <span id="modal-time"></span></p>
+        <p><strong>コスト:</strong> <span id="modal-cost"></span></p>
+        <p><strong>使用器具:</strong> <span id="modal-tools"></span></p>
+      </div>
+      <button id="modal-close-btn">閉じる</button>
+    </div>
+  </div>
+  <script src="js/main.js"></script>
+
+</body>
+</html>

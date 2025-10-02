@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在庫管理</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>在庫管理</h1>
+    </header>
+
+    <main>
+        <div class="form-container">
+            <select id="stock-name">
+                <option value="">-- 食材を選択 --</option>
+                <option value="たまご">たまご</option>
+                <option value="牛乳">牛乳</option>
+                <option value="キャベツ">キャベツ</option>
+                <option value="レタス">レタス</option>
+                <option value="豚肉">豚肉</option>
+                <option value="鶏肉">鶏肉</option>
+                <option value="牛肉">牛肉</option>
+                <option value="玉ねぎ">玉ねぎ</option>
+                <option value="じゃがいも">じゃがいも</option>
+                <option value="にんじん">にんじん</option>
+                <option value="トマト">トマト</option>
+                <option value="ピーマン">ピーマン</option>
+            </select>
+            
+            <select id="stock-quantity">
+                <option value="">-- 数量を選択 --</option>
+                <option value="1個">1個</option>
+                <option value="2個">2個</option>
+                <option value="3個">3個</option>
+                <option value="1/2個">1/2個</option>
+                <option value="1/4個">1/4個</option>
+                <option value="1本">1本</option>
+                <option value="1パック">1パック</option>
+                <option value="1袋">1袋</option>
+                <option value="少量">少量</option>
+                <option value="適量">適量</option>
+            </select>
+
+            <button id="add-stock-btn">追加</button>
+        </div>
+        <ul id="stock-list" class="list-container">
+            </ul>
+    </main>
+
+    <footer>
+        <nav class="bottom-nav">
+            <a href="index.html">ホーム</a>
+            <a href="menu.html">献立</a>
+            <a href="stock.html" class="active">在庫</a>
+            <a href="shopping-list.html">買い物リスト</a>
+        </nav>
+    </footer>
+
+    <script src="js/stock.js"></script>
+</body>
+</html>

@@ -8,14 +8,11 @@
 </head>
 <body>
 
-  <header>
-    <h1>献立一覧</h1>
-  </header>
+  <header><h1>献立一覧</h1></header>
 
   <main>
-    <ul id="menu-list" class="list-container">
-      </ul>
-    <p id="empty-message" style="display: none; text-align: center; margin-top: 20px;">まだ献立がありません。</p>
+    <ul id="menu-list" class="list-container"></ul>
+    <p id="empty-message" class="hidden" style="text-align: center; margin-top: 20px;">まだ献立がありません。</p>
   </main>
 
   <footer>
@@ -26,6 +23,25 @@
       <a href="shopping-list.html">買い物リスト</a>
     </nav>
   </footer>
+
+  <div id="modal-overlay" class="hidden">
+    <div id="modal-content">
+      <div id="modal-media-gallery">
+        <div id="main-media-container"></div>
+        <div id="thumbnail-container"></div>
+      </div>
+      <h2 id="modal-recipe-name"></h2>
+      <div class="modal-details">
+        <h3>材料</h3>
+        <ul id="modal-ingredients"></ul>
+        <p><strong>作成時間:</strong> <span id="modal-time"></span></p>
+        <p><strong>コスト:</strong> <span id="modal-cost"></span></p>
+        <p><strong>カロリー:</strong> <span id="modal-calories"></span></p>
+        <p><strong>使用器具:</strong> <span id="modal-tools"></span></p>
+      </div>
+      <button id="modal-close-btn">閉じる</button>
+    </div>
+  </div>
 
   <script src="js/menu.js"></script>
 </body>

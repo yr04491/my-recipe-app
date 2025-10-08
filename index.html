@@ -9,16 +9,16 @@
 <body>
 
   <header>
-    <h1>今日の献立候補</h1>
+    <h1 id="header-title">今日の献立候補</h1>
+    <input type="text" id="search-bar" class="hidden" placeholder="レシピ名で検索...">
     <div class="header-icons">
-      <button class="icon-btn">🔍</button>
-      <button class="icon-btn">⚙️</button>
+      <button class="icon-btn" id="search-btn">🔍</button>
+      <button class="icon-btn" id="settings-btn">⚙️</button>
     </div>
   </header>
 
   <main>
-    <div class="card-container">
-      </div>
+    <div class="card-container"></div>
   </main>
 
   <footer>
@@ -32,18 +32,23 @@
 
   <div id="modal-overlay" class="hidden">
     <div id="modal-content">
-      <h2 id="modal-recipe-name">レシピ名</h2>
+      <div id="modal-media-gallery">
+        <div id="main-media-container"></div>
+        <div id="thumbnail-container"></div>
+      </div>
+      <h2 id="modal-recipe-name"></h2>
       <div class="modal-details">
         <h3>材料</h3>
-        <ul id="modal-ingredients">
-          </ul>
+        <ul id="modal-ingredients"></ul>
         <p><strong>作成時間:</strong> <span id="modal-time"></span></p>
         <p><strong>コスト:</strong> <span id="modal-cost"></span></p>
+        <p><strong>カロリー:</strong> <span id="modal-calories"></span></p>
         <p><strong>使用器具:</strong> <span id="modal-tools"></span></p>
       </div>
       <button id="modal-close-btn">閉じる</button>
     </div>
   </div>
+
   <script src="js/main.js"></script>
 
 </body>

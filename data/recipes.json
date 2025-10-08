@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1, "name": "絶品！親子丼", "time": 15, "cost": 300, "calories": 650,
+    "media": [
+      { "type": "image", "url": "assets/親子丼.jpg" },
+      { "type": "video", "url": "assets/親子丼動画.mp4", "thumbnailUrl": "assets/親子丼テーマ.jpg" }
+    ],
+    "ingredients": [ { "name": "鶏もも肉", "amount": "1/2枚" }, { "name": "たまご", "amount": "2個" }, { "name": "玉ねぎ", "amount": "1/4個" }],
+    "tools": ["フライパン", "包丁", "まな板"]
+  },
+  {
+    "id": 2, "name": "簡単ヘルシー！サラダチキン", "time": 10, "cost": 250, "calories": 250,
+    "media": [
+      { "type": "image", "url": "assets/サラダチキン.jpg" },
+      { "type": "video", "url": "assets/サラダチキン動画.mp4", "thumbnailUrl": "assets/サラダチキンテーマ.jpg" }
+    ],
+    "ingredients": [ { "name": "鶏むね肉", "amount": "1枚" }, { "name": "砂糖", "amount": "小さじ1" }, { "name": "塩", "amount": "小さじ1/2" } ],
+    "tools": ["鍋", "ジップロック"]
+  },
+  {
+    "id": 3, "name": "濃厚カルボナーラ", "time": 20, "cost": 400, "calories": 780,
+    "media": [
+      { "type": "image", "url": "assets/カルボナーラ.jpg" },
+      { "type": "video", "url": "assets/カルボナーラ動画.mp4", "thumbnailUrl": "assets/カルボナーラテーマ.jpg" }
+    ],
+    "ingredients": [ { "name": "パスタ", "amount": "100g" }, { "name": "ベーコン", "amount": "50g" }, { "name": "たまご", "amount": "1個" } ],
+    "tools": ["鍋", "フライパン", "ボウル"]
+  },
+  {
+    "id": 4, "name": "豚の生姜焼き", "time": 15, "cost": 350, "calories": 550,
+    "media": [
+      { "type": "image", "url": "assets/生姜焼き.jpg" },
+      { "type": "video", "url": "assets/生姜焼き動画.mp4", "thumbnailUrl": "assets/生姜焼きテーマ.jpg" }
+    ],
+    "ingredients": [ { "name": "豚ロース肉", "amount": "150g" }, { "name": "玉ねぎ", "amount": "1/2個" }, { "name": "生姜", "amount": "1かけ" } ],
+    "tools": ["フライパン", "包丁", "まな板"]
+  },
+  {
+    "id": 5, "name": "具沢山カレーライス", "time": 30, "cost": 500, "calories": 700,
+    "media": [
+      { "type": "image", "url": "assets/カレー.jpg" },
+      { "type": "video", "url": "assets/カレー動画.mp4", "thumbnailUrl": "assets/カレーテーマ.jpg" }
+    ],
+    "ingredients": [ { "name": "カレールー", "amount": "2かけ" }, { "name": "豚肉", "amount": "100g" }, { "name": "じゃがいも", "amount": "1個" } ],
+    "tools": ["鍋", "包丁", "まな板"]
+  }
+]

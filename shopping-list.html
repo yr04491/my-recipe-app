@@ -7,14 +7,14 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header>
-        <h1>買い物リスト</h1>
-    </header>
+    <header><h1>買い物リスト</h1></header>
 
     <main>
-        <div class="list-container">
-            <p style="text-align: center;">この機能はまだ実装されていません。</p>
-            </div>
+        <ul id="shopping-list" class="list-container todo-list"></ul>
+        <p id="shopping-empty-message" class="hidden" style="text-align: center; margin-top: 20px;">買うものはありません！</p>
+        <div id="total-cost-container" class="hidden">
+            <strong>レシピ合計金額: </strong><span id="total-cost">0</span>円
+        </div>
     </main>
 
     <footer>
@@ -25,5 +25,6 @@
             <a href="shopping-list.html" class="active">買い物リスト</a>
         </nav>
     </footer>
+    <script src="js/shopping-list.js"></script>
 </body>
 </html>

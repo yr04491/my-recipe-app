@@ -6,27 +6,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const likedRecipes = JSON.parse(localStorage.getItem('likedRecipes')) || [];
   const stocks = JSON.parse(localStorage.getItem('stocks')) || [];
-
-  const neededIngredients = new Map();
-  likedRecipes.forEach(recipe => {
-    recipe.ingredients.forEach(ingredient => {
-      if (!neededIngredients.has(ingredient.name)) {
-        neededIngredients.set(ingredient.name, ingredient.amount);
-      }
-    });
-  });
-
   const stockNames = new Set(stocks.map(stock => stock.name));
   
+  // localStorageから読み込むキー
+  const SHOPPING_LIST_KEY = 'shoppingList';
   let shoppingList = [];
-  neededIngredients.forEach((amount, name) => {
-    if (!stockNames.has(name)) {
-      shoppingList.push({ name, amount, checked: false });
-    }
-  });
+
+  // ★ 買い物リストをlocalStorageに保存する関数
+  function saveShoppingList() {
+    localStorage.setItem(SHOPPING_LIST_KEY, JSON.stringify(shoppingList));
+  }
+
+  // ★ チェックされていない項目に基づいて合計金額を計算する関数
+  function calculateTotalCost() {
+    // 1. チェックされていない材料のSetを作成
+    const uncheckedIngredients = new Set(
+      shoppingList
+        .filter(item => !item.checked)
+        .map(item => item.name)
+    );
+
+    let totalCost = 0;
+    // 2. お気に入りレシピをループ
+    likedRecipes.forEach(recipe => {
+      // 3. そのレシピの材料に、未チェックの買い物リスト材料が含まれるか確認
+      const needsBuying = recipe.ingredients.some(ingredient => 
+        uncheckedIngredients.has(ingredient.name)
+      );
+      
+      if (needsBuying) {
+        totalCost += recipe.cost;
+      }
+    });
+    
+    totalCostEl.textContent = totalCost.toLocaleString();
+  }
+
 
   function renderShoppingList() {
     shoppingListEl.innerHTML = '';
+    
     if (shoppingList.length === 0) {
       emptyMessage.classList.remove('hidden');
       totalCostContainer.classList.add('hidden');
@@ -43,8 +62,10 @@ document.addEventListener('DOMContentLoaded', () => {
         checkbox.type = 'checkbox';
         checkbox.checked = item.checked;
         checkbox.addEventListener('change', () => {
+          // ★ チェック状態を更新
           item.checked = checkbox.checked;
-          renderShoppingList(); // 再描画して状態を反映
+          saveShoppingList();
+          renderShoppingList(); // 再描画
         });
 
         const textSpan = document.createElement('span');
@@ -54,8 +75,10 @@ document.addEventListener('DOMContentLoaded', () => {
         deleteBtn.className = 'delete-btn';
         deleteBtn.innerHTML = '&times;';
         deleteBtn.addEventListener('click', () => {
+          // ★ リストから削除
           shoppingList.splice(index, 1);
-          renderShoppingList(); // 削除後再描画
+          saveShoppingList();
+          renderShoppingList(); // 再描画
         });
         
         listItem.appendChild(checkbox);
@@ -64,10 +87,49 @@ document.addEventListener('DOMContentLoaded', () => {
         shoppingListEl.appendChild(listItem);
       });
     }
-    // 合計金額を計算
-    const totalCost = likedRecipes.reduce((sum, recipe) => sum + recipe.cost, 0);
-    totalCostEl.textContent = totalCost.toLocaleString(); // 3桁区切りにする
+    
+    // ★ 合計金額を（再）計算
+    calculateTotalCost();
   }
 
-  renderShoppingList();
+  // --- 初期化ロジック ---
+  function init() {
+    const savedShoppingList = JSON.parse(localStorage.getItem(SHOPPING_LIST_KEY));
+    
+    // ★ 献立が更新されたかを簡易的にチェック
+    //（献立のレシピ数と、リスト内のレシピ起因の材料が合わない場合、リストを再生成）
+    const itemsFromRecipes = JSON.parse(localStorage.getItem('shoppingListRecipeCount')) || 0;
+    
+    if (savedShoppingList && itemsFromRecipes === likedRecipes.length) {
+      // 保存されたリストがあり、献立も変わっていなさそうならそれを使う
+      shoppingList = savedShoppingList;
+    } else {
+      // 保存されたリストがない、または献立が変わっていそうなら、リストを再生成
+      shoppingList = [];
+      const neededIngredients = new Map();
+      likedRecipes.forEach(recipe => {
+        recipe.ingredients.forEach(ingredient => {
+          // 在庫にないものだけをピックアップ
+          if (!stockNames.has(ingredient.name)) {
+            if (!neededIngredients.has(ingredient.name)) {
+              neededIngredients.set(ingredient.name, ingredient.amount);
+            }
+          }
+        });
+      });
+
+      neededIngredients.forEach((amount, name) => {
+        shoppingList.push({ name, amount, checked: false });
+      });
+      
+      // 新しいリストを保存
+      saveShoppingList();
+      // 献立のレシピ数を保存
+      localStorage.setItem('shoppingListRecipeCount', JSON.stringify(likedRecipes.length));
+    }
+
+    renderShoppingList();
+  }
+
+  init();
 });

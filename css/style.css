@@ -241,7 +241,8 @@ footer {
   flex-grow: 1;
 }
 #total-cost-container {
-  margin-top: 20px;
+  margin-top: 0;
+  margin-bottom: 20px;
   padding: 15px;
   background-color: var(--surface-color);
   border-radius: 8px;
@@ -253,7 +254,6 @@ footer {
 .form-container {
   display: flex;
   gap: 10px;
-  margin-bottom: 20px;
   flex-wrap: wrap;
 }
 .form-container select,
@@ -274,8 +274,20 @@ footer {
   flex-basis: 100%;
 }
 
+#stock-add-form {
+  flex-direction: column;
+  gap: 15px;
+}
+#stock-add-form select,
+#stock-add-form input {
+  flex-basis: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+
 /* モーダル */
-#modal-overlay {
+#modal-overlay, .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -287,7 +299,7 @@ footer {
   justify-content: center;
   z-index: 1000;
 }
-#modal-content {
+#modal-content, .modal-content {
   background-color: var(--surface-color);
   padding: 20px 25px;
   border-radius: 10px;
@@ -333,7 +345,7 @@ footer {
 .thumbnail.active {
   border-color: var(--primary-color);
 }
-#modal-content h2 {
+#modal-content h2, .modal-content h2 {
   margin-top: 0;
   margin-bottom: 15px;
   font-size: 1.4em;
@@ -383,9 +395,6 @@ footer {
   }
   .bottom-nav a {
     font-size: 0.8em;
-  }
-  .form-container {
-    flex-direction: column;
   }
 }
 
@@ -483,7 +492,58 @@ footer {
   color: var(--text-muted-color);
   text-align: center;
   padding: 15px;
-  margin: -15px -15px 15px -15px; /* mainのpaddingを打ち消して幅いっぱいに */
+  margin: -15px -15px 15px -15px;
   border-bottom: 1px solid var(--border-color);
-  background-color: var(--surface-color); /* ヘッダーとリストの間の区切りとして */
+  background-color: var(--surface-color);
 }
+
+/* --- 在庫追加モーダルのボタンスタイル --- */
+.modal-button-container {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+.modal-button-container button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  flex-grow: 1;
+  font-size: 1em;
+}
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+.btn-secondary {
+  background-color: #eee;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+/* --- ↓↓↓ フローティングアクションボタンのスタイル ↓↓↓ --- */
+.floating-action-button {
+  position: fixed; /* 画面に固定 */
+  right: 20px; /* 右から20px */
+  bottom: 150px; /* ★ 100px から 300px に変更 */
+  width: 56px;
+  height: 56px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 50%; /* 丸くする */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 900; /* リストより手前、モーダルより奥 */
+  transition: transform 0.2s ease;
+}
+.floating-action-button:active {
+  transform: scale(0.95); /* クリック時に少し小さくする */
+}
+.floating-action-button svg {
+  stroke: white; /* SVGの色を白に */
+}
+/* --- ↑↑↑ 追記ここまで ↑↑↑ --- */

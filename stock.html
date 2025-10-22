@@ -7,10 +7,26 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header><h1>在庫管理</h1></header>
-
+    <header>
+      <h1>在庫管理</h1>
+      <div class="header-icons">
+        </div>
+    </header>
     <main>
-        <div class="form-container">
+        <p class="page-description">
+          購入した食材と賞味期限を管理できます!!
+        </p>
+        <ul id="stock-list" class="list-container"></ul>
+        <p id="stock-empty-message" class="hidden" style="text-align: center; margin-top: 20px;">
+          在庫はまだありません
+        </p>
+    </main>
+
+    <div id="stock-add-modal" class="modal-overlay hidden">
+      <div class="modal-content">
+        <h2>在庫を追加</h2>
+        
+        <div class="form-container" id="stock-add-form">
             <select id="stock-name">
                 <option value="">-- 食材を選択 --</option>
             </select>
@@ -22,11 +38,18 @@
                 <option value="1袋">1袋</option><option value="少量">少量</option><option value="適量">適量</option>
             </select>
             <input type="date" id="stock-expiry">
-            <button id="add-stock-btn">追加</button>
         </div>
-        <ul id="stock-list" class="list-container"></ul>
-    </main>
+        
+        <div class="modal-button-container">
+          <button id="stock-modal-close-btn" class="btn-secondary">キャンセル</button>
+          <button id="add-stock-btn" class="btn-primary">追加</button>
+        </div>
 
+      </div>
+    </div>
+    <button class="floating-action-button" id="show-form-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+    </button>
     <footer>
         <nav class="bottom-nav">
             <a href="index.html">ホーム</a>

@@ -1,3 +1,96 @@
+/* --- 追加：基本デザインの再定義 --- */
+:root {
+  --primary-color: #FF6B00; /* 温かみのあるオレンジ */
+  --background-color: #F9F9F9;
+  --surface-color: #FFFFFF;
+  --text-color: #333333;
+  --text-muted-color: #757575;
+  --border-color: #E0E0E0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  /* 既存のbodyスタイルは維持 */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+  overscroll-behavior-x: contain;
+}
+
+header {
+  background-color: var(--surface-color);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  /* 既存のheaderスタイルは維持 */
+  padding: 15px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+footer {
+  background-color: var(--surface-color);
+  border-top: 1px solid var(--border-color);
+  box-shadow: 0 -1px 3px rgba(0,0,0,0.04);
+  /* 既存のfooterスタイルは維持 */
+  position: relative;
+  z-index: 1;
+}
+
+.bottom-nav {
+  /* 既存の.bottom-navスタイルを上書き */
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0; /* 少しスリムに */
+}
+.bottom-nav a {
+  /* 既存の.bottom-nav aスタイルを上書き */
+  color: var(--text-muted-color);
+  text-decoration: none;
+  font-size: 0.8em;
+  padding: 8px 12px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.bottom-nav a.active {
+  color: var(--primary-color);
+  font-weight: 600; /* 少し太く */
+}
+
+/* --- 追加：ナビゲーションアイコン --- */
+.bottom-nav a::before {
+  font-family: "icon"; /* 仮のフォント名 */
+  font-size: 24px;
+  font-weight: normal;
+}
+.bottom-nav a[href="index.html"]::before { content: "🏠"; }
+.bottom-nav a[href="menu.html"]::before { content: "📖"; }
+.bottom-nav a[href="stock.html"]::before { content: "🧊"; }
+.bottom-nav a[href="shopping-list.html"]::before { content: "🛒"; }
+/* --- ここまで追加 --- */
+
+/* 既存のボタン等の色を新しいカラーパレットに合わせる */
+.form-container button, #modal-close-btn {
+    background-color: var(--primary-color);
+}
+.bottom-nav a.active {
+    color: var(--primary-color);
+}
+.thumbnail.active {
+    border-color: var(--primary-color);
+}
+
 /* 基本スタイル */
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -344,4 +437,60 @@ footer {
   .form-container {
     flex-direction: column;
   }
+}
+
+/* --- ホーム画面カードの改善 --- */
+.recipe-card {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12); /* 影をリッチに */
+  transform: scale(0.95); /* カードに奥行きを出す */
+  transition: transform 0.3s ease;
+  will-change: transform;
+  /* 既存のスタイルを一部維持 */
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  border-radius: 15px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  cursor: grab;
+}
+
+.card-container .recipe-card:not(:first-child) {
+  transform: scale(0.9) translateY(20px);
+  opacity: 0.8;
+}
+
+.recipe-card img {
+  /* 既存のスタイルを上書き */
+  width: 100%;
+  height: 100%; /* 画像をカード全体に表示 */
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.recipe-card-info {
+  /* 既存のスタイルを上書き */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 40px 20px 20px; /* テキストエリアの確保 */
+  background: linear-gradient(transparent, rgba(0,0,0,0.8)); /* グラデーション */
+  text-align: left;
+}
+.recipe-card-info h2 {
+  color: white; /* テキスト色を白に */
+  font-size: 1.6em;
+  margin: 0;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.5); /* 文字に影をつける */
+}
+
+/* style.css に追記 */
+.icon-btn svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--text-muted-color);
 }

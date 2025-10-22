@@ -12,20 +12,33 @@
 
   <main>
     <p class="page-description">
-      ホーム画面でいいね❤️したお気に入りレシピ！！
+      ホーム画面で ❤️ 保存した<br>お気に入りレシピの一覧です。
     </p>
+
     <ul id="menu-list" class="list-container"></ul>
     <p id="empty-message" class="hidden" style="text-align: center; margin-top: 20px;">まだ献立がありません。</p>
   </main>
 
   <footer>
     <nav class="bottom-nav">
-      <a href="index.html">ホーム</a>
-      <a href="menu.html" class="active">献立</a>
-      <a href="stock.html">在庫</a>
-      <a href="shopping-list.html">買い物リスト</a>
+      <a href="index.html">
+        <i class="nav-icon" id="icon-home"></i>
+        <span>ホーム</span>
+      </a>
+      <a href="menu.html" class="active">
+        <i class="nav-icon" id="icon-menu"></i>
+        <span>献立</span>
+      </a>
+      <a href="stock.html">
+        <i class="nav-icon" id="icon-stock"></i>
+        <span>在庫</span>
+      </a>
+      <a href="shopping-list.html">
+        <i class="nav-icon" id="icon-cart"></i>
+        <span>買い物リスト</span>
+      </a>
     </nav>
-  </footer>
+    </footer>
 
   <div id="modal-overlay" class="hidden">
     <div id="modal-content">

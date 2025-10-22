@@ -32,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     recipe.media.forEach((mediaItem, index) => { 
       const thumb = document.createElement('img'); 
-      // ★★★ 修正点 ★★★
       thumb.src = mediaItem.type === 'video' ? mediaItem.thumbnailUrl : mediaItem.url; 
       thumb.className = 'thumbnail'; 
       if (index === 0) { 
@@ -72,7 +71,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'delete-btn';
-        deleteBtn.innerHTML = '🗑️';
+        // ↓↓↓ ここを修正（絵文字 🗑️ から <i> タグに変更） ↓↓↓
+        deleteBtn.innerHTML = '<i class="icon-trash"></i>';
+        // ↑↑↑ 修正ここまで ↑↑↑
         deleteBtn.addEventListener('click', () => {
           if (window.confirm(`「${recipe.name}」を献立から削除しますか？`)) {
             likedRecipes.splice(index, 1);

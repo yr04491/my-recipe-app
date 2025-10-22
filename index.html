@@ -16,8 +16,8 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
       </button>
       <button class="icon-btn" id="settings-btn">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
-    </button>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+      </button>
     </div>
   </header>
 
@@ -45,12 +45,24 @@
 
   <footer>
     <nav class="bottom-nav">
-      <a href="index.html" class="active">ホーム</a>
-      <a href="menu.html">献立</a>
-      <a href="stock.html">在庫</a>
-      <a href="shopping-list.html">買い物リスト</a>
+      <a href="index.html" class="active">
+        <i class="nav-icon" id="icon-home"></i>
+        <span>ホーム</span>
+      </a>
+      <a href="menu.html">
+        <i class="nav-icon" id="icon-menu"></i>
+        <span>献立</span>
+      </a>
+      <a href="stock.html">
+        <i class="nav-icon" id="icon-stock"></i>
+        <span>在庫</span>
+      </a>
+      <a href="shopping-list.html">
+        <i class="nav-icon" id="icon-cart"></i>
+        <span>買い物リスト</span>
+      </a>
     </nav>
-  </footer>
+    </footer>
 
   <div id="modal-overlay" class="hidden">
     <div id="modal-content">

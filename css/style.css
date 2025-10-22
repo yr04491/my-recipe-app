@@ -103,28 +103,47 @@ footer {
 .bottom-nav a {
   color: var(--text-muted-color);
   text-decoration: none;
-  font-size: 0.8em;
   padding: 8px 12px;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 4px; /* 隙間を調整 */
   transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* ↓↓↓ ここからフッターアイコンのスタイル ↓↓↓ */
+.bottom-nav a .nav-icon {
+  width: 24px;
+  height: 24px;
+  background-color: var(--text-muted-color);
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  transition: background-color 0.2s ease;
+}
+/* (パスは適宜修正してください) */
+#icon-home  { -webkit-mask-image: url(../assets/home.svg);  mask-image: url(../assets/home.svg); }
+#icon-menu  { -webkit-mask-image: url(../assets/menu.svg);  mask-image: url(../assets/menu.svg); }
+#icon-stock { -webkit-mask-image: url(../assets/stock.svg); mask-image: url(../assets/stock.svg); }
+#icon-cart  { -webkit-mask-image: url(../assets/cart.svg);  mask-image: url(../assets/cart.svg); }
+
+.bottom-nav a span {
+  font-size: 0.8em;
+  line-height: 1;
 }
 .bottom-nav a.active {
   color: var(--primary-color);
   font-weight: 600;
 }
-.bottom-nav a::before {
-  font-family: "icon";
-  font-size: 24px;
-  font-weight: normal;
+.bottom-nav a.active .nav-icon {
+  background-color: var(--primary-color);
 }
-.bottom-nav a[href="index.html"]::before { content: "🏠"; }
-.bottom-nav a[href="menu.html"]::before { content: "📖"; }
-.bottom-nav a[href="stock.html"]::before { content: "🧊"; }
-.bottom-nav a[href="shopping-list.html"]::before { content: "🛒"; }
+/* ↑↑↑ フッターアイコンのスタイルここまで ↑↑↑ */
+
 
 /* カード */
 .card-container {
@@ -198,14 +217,26 @@ footer {
   justify-content: space-between;
   align-items: center;
 }
+
+/* ↓↓↓ ごみ箱ボタンのスタイルを修正 ↓↓↓ */
 .list-item .delete-btn {
   background: none;
   border: none;
-  color: #e74c3c;
   cursor: pointer;
-  font-size: 1.5em;
   padding: 0 5px;
 }
+.icon-trash {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  background-color: #e74c3c; /* ごみ箱の色 */
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  -webkit-mask-image: url(../assets/trash.svg); /* (パスは適宜修正) */
+  mask-image: url(../assets/trash.svg);
+}
+/* ↑↑↑ 修正ここまで ↑↑↑ */
+
 
 /* 献立リスト */
 .menu-item-content {
@@ -521,29 +552,28 @@ footer {
   border: 1px solid var(--border-color);
 }
 
-/* --- ↓↓↓ フローティングアクションボタンのスタイル ↓↓↓ --- */
+/* --- フローティングアクションボタンのスタイル --- */
 .floating-action-button {
-  position: fixed; /* 画面に固定 */
-  right: 20px; /* 右から20px */
-  bottom: 150px; /* ★ 100px から 300px に変更 */
+  position: fixed;
+  right: 20px;
+  bottom: 150px; /* 固定位置に修正 */
   width: 56px;
   height: 56px;
   background-color: var(--primary-color);
   color: white;
   border: none;
-  border-radius: 50%; /* 丸くする */
+  border-radius: 50%;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 900; /* リストより手前、モーダルより奥 */
+  z-index: 900;
   transition: transform 0.2s ease;
 }
 .floating-action-button:active {
-  transform: scale(0.95); /* クリック時に少し小さくする */
+  transform: scale(0.95);
 }
 .floating-action-button svg {
-  stroke: white; /* SVGの色を白に */
+  stroke: white;
 }
-/* --- ↑↑↑ 追記ここまで ↑↑↑ --- */

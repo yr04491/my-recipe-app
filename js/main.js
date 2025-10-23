@@ -1,5 +1,5 @@
 // --- グローバル変数 ---
-let allRecipes = []; 
+let allRecipes = [];
 let displayedRecipes = [];
 let currentCardIndex = 0;
 
@@ -19,6 +19,21 @@ let currentCard = null, swipeDirection = null;
 
 // --- 関数定義 ---
 
+// チュートリアルを非表示にする共通関数
+function hideTutorial() {
+  if (tutorialOverlay.style.display !== 'none' && !tutorialOverlay.hiding) {
+    tutorialOverlay.hiding = true;
+    tutorialOverlay.style.opacity = '0';
+    setTimeout(() => {
+      tutorialOverlay.style.display = 'none';
+    }, 500);
+    localStorage.setItem('tutorialCompleted', 'true');
+
+    tutorialOverlay.removeEventListener('click', hideTutorial);
+    tutorialOverlay.removeEventListener('touchstart', hideTutorial);
+  }
+}
+
 function openModal(recipe) {
   const modalRecipeName = document.getElementById('modal-recipe-name');
   const modalIngredients = document.getElementById('modal-ingredients');
@@ -28,72 +43,99 @@ function openModal(recipe) {
   const modalTools = document.getElementById('modal-tools');
   const mainMediaContainer = document.getElementById('main-media-container');
   const thumbnailContainer = document.getElementById('thumbnail-container');
+  // ↓↓↓ AIボタン要素を取得 ↓↓↓
+  const modalAiBtn = document.getElementById('modal-ai-btn');
+  // ↑↑↑ 追加 ↑↑↑
 
   modalRecipeName.textContent = recipe.name;
   modalTime.textContent = `約${recipe.time}分`;
   modalCost.textContent = `約${recipe.cost}円`;
   modalCalories.textContent = `約${recipe.calories}kcal`;
   modalTools.textContent = recipe.tools.join('、');
-  
+
   modalIngredients.innerHTML = '';
   recipe.ingredients.forEach(ing => { const li = document.createElement('li'); li.textContent = `${ing.name} (${ing.amount})`; modalIngredients.appendChild(li); });
 
   mainMediaContainer.innerHTML = '';
   thumbnailContainer.innerHTML = '';
 
-  function showMedia(mediaItem) { 
-    mainMediaContainer.innerHTML = ''; 
-    if (mediaItem.type === 'image') { 
-        const img = document.createElement('img'); img.src = mediaItem.url; mainMediaContainer.appendChild(img); 
-    } else if (mediaItem.type === 'video') { 
-        const video = document.createElement('video'); video.src = mediaItem.url; video.controls = true; mainMediaContainer.appendChild(video); 
-    } 
+  function showMedia(mediaItem) {
+    mainMediaContainer.innerHTML = '';
+    if (mediaItem.type === 'image') {
+        const img = document.createElement('img'); img.src = mediaItem.url; mainMediaContainer.appendChild(img);
+    } else if (mediaItem.type === 'video') {
+        const video = document.createElement('video'); video.src = mediaItem.url; video.controls = true; mainMediaContainer.appendChild(video);
+    }
   }
 
   recipe.media.forEach((mediaItem, index) => {
     const thumb = document.createElement('img');
     thumb.src = mediaItem.type === 'video' ? mediaItem.thumbnailUrl : mediaItem.url;
     thumb.className = 'thumbnail';
-    if (index === 0) { 
-        thumb.classList.add('active'); 
-        showMedia(mediaItem); 
+    if (index === 0) {
+        thumb.classList.add('active');
+        showMedia(mediaItem);
     }
-    thumb.addEventListener('click', () => { 
-        document.querySelector('.thumbnail.active')?.classList.remove('active'); 
-        thumb.classList.add('active'); 
-        showMedia(mediaItem); 
+    thumb.addEventListener('click', () => {
+        document.querySelector('.thumbnail.active')?.classList.remove('active');
+        thumb.classList.add('active');
+        showMedia(mediaItem);
     });
     thumbnailContainer.appendChild(thumb);
   });
 
+  // ↓↓↓ AIボタンにイベントリスナーを設定 ↓↓↓
+  // 古いリスナーを削除（重複登録防止）
+  const newAiBtn = modalAiBtn.cloneNode(true);
+  modalAiBtn.parentNode.replaceChild(newAiBtn, modalAiBtn);
+
+  newAiBtn.onclick = (e) => { // onclick を使うことで古いリスナーを確実に上書き
+    e.stopPropagation();
+    if (window.confirm(`「${recipe.name}」について\nAIに質問しますか？`)) {
+        console.log('AIに質問します');
+    }
+  };
+  // ↑↑↑ 追加ここまで ↑↑↑
+
   modalOverlay.classList.remove('hidden');
 }
+
 
 function createCard(recipe) {
   const card = document.createElement('div');
   card.className = 'recipe-card';
-  
+
   const firstMedia = recipe.media[0];
-  // ★★★ ここが修正点です！ 'first.url' -> 'firstMedia.url' に修正 ★★★
   const cardImageUrl = firstMedia.type === 'video' ? firstMedia.thumbnailUrl : firstMedia.url;
-  
+
+  // ↓↓↓ AIボタンを削除 ↓↓↓
   card.innerHTML = `
     <div class="swipe-badge nope-badge">NOPE</div>
     <div class="swipe-badge like-badge">LIKE</div>
+
     <img src="${cardImageUrl}" alt="${recipe.name}">
     <div class="recipe-card-info"><h2>${recipe.name}</h2></div>
   `;
+  // ↑↑↑ 修正ここまで ↑↑↑
 
   cardContainer.appendChild(card);
   currentCard = card;
   currentCard.addEventListener('mousedown', dragStart);
   currentCard.addEventListener('touchstart', dragStart, { passive: false });
   card.addEventListener('click', (e) => {
-    if (Math.abs(deltaX) < 10) { 
-      openModal(recipe);
+    // スワイプ操作でなければモーダルを開く
+    if (Math.abs(deltaX) < 10 && Math.abs(deltaY) < 10) {
+        openModal(recipe);
     }
   });
+
+  // ↓↓↓ AIボタン関連のリスナーは削除 ↓↓↓
+  // const aiBtn = card.querySelector('.card-ai-btn');
+  // aiBtn.addEventListener(...);
+  // ↑↑↑ 削除ここまで ↑↑↑
 }
+
+// ... (dragging, dragStart, dragEnd 関数は変更なし) ...
 
 function dragging(e) {
   if (!isDragging || !currentCard) return;
@@ -103,7 +145,9 @@ function dragging(e) {
   deltaY = currentY - startY;
 
   if (!swipeDirection) {
-    swipeDirection = Math.abs(deltaX) > Math.abs(deltaY) ? 'horizontal' : 'vertical';
+    if (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5) {
+        swipeDirection = Math.abs(deltaX) > Math.abs(deltaY) ? 'horizontal' : 'vertical';
+    }
   }
 
   if (swipeDirection === 'horizontal') {
@@ -136,14 +180,7 @@ function dragStart(e) {
   currentCard.style.transition = 'none';
   currentCard.classList.remove('returning');
 
-  if (tutorialOverlay.style.display !== 'none' && !tutorialOverlay.hiding) {
-    tutorialOverlay.hiding = true;
-    tutorialOverlay.style.opacity = '0';
-    setTimeout(() => {
-      tutorialOverlay.style.display = 'none';
-    }, 500);
-    localStorage.setItem('tutorialCompleted', 'true');
-  }
+  hideTutorial();
 
   document.addEventListener('mousemove', dragging);
   document.addEventListener('mouseup', dragEnd);
@@ -155,31 +192,32 @@ function dragStart(e) {
 function dragEnd() {
   if (!isDragging || !currentCard) return;
   isDragging = false;
-  
+
   const likeBadge = currentCard.querySelector('.like-badge');
   const nopeBadge = currentCard.querySelector('.nope-badge');
-  likeBadge.style.transition = 'opacity 0.3s ease';
-  nopeBadge.style.transition = 'opacity 0.3s ease';
   likeBadge.style.opacity = 0;
   nopeBadge.style.opacity = 0;
+  likeBadge.style.transition = 'opacity 0.3s ease';
+  nopeBadge.style.transition = 'opacity 0.3s ease';
 
   const decisionThreshold = window.innerWidth / 4;
   if (swipeDirection === 'horizontal' && Math.abs(deltaX) > decisionThreshold) {
     swipeCard(deltaX > 0);
   } else {
     currentCard.classList.add('returning');
+    currentCard.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
     currentCard.style.transform = 'translateX(0) rotate(0)';
   }
 
-  setTimeout(() => { deltaX = 0; }, 300);
+  setTimeout(() => { deltaX = 0; deltaY = 0; }, 300);
 
-  swipeDirection = null;
   document.removeEventListener('mousemove', dragging);
   document.removeEventListener('mouseup', dragEnd);
   document.removeEventListener('touchmove', dragging);
   document.removeEventListener('touchend', dragEnd);
   document.removeEventListener('mouseleave', dragEnd);
 }
+
 
 async function initializeApp() {
   try {
@@ -192,10 +230,13 @@ async function initializeApp() {
     shuffleArray(recipesForDisplay);
     displayedRecipes = recipesForDisplay;
     renderCards();
-    
+
     if (!localStorage.getItem('tutorialCompleted')) {
       tutorialOverlay.style.display = 'flex';
       setTimeout(() => { tutorialOverlay.style.opacity = '1'; }, 100);
+
+      tutorialOverlay.addEventListener('click', hideTutorial, { once: true });
+      tutorialOverlay.addEventListener('touchstart', hideTutorial, { once: true });
     }
 
   } catch (error) {
@@ -204,17 +245,93 @@ async function initializeApp() {
   }
 }
 
-// --- 変更のない関数群 ---
-function shuffleArray(array) { for (let i = array.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [array[i], array[j]] = [array[j], array[i]]; } }
-function closeModal() { const video = document.querySelector('#main-media-container video'); if (video) { video.pause(); } modalOverlay.classList.add('hidden'); }
-function swipeCard(isLike) { if (!currentCard) return; const moveX = isLike ? window.innerWidth : -window.innerWidth; currentCard.style.transition = 'transform 0.5s ease, opacity 0.5s ease'; currentCard.style.transform = `translateX(${moveX}px) rotate(${moveX / 20}deg)`; currentCard.classList.add('dismissing'); if (isLike) { const likedRecipes = JSON.parse(localStorage.getItem('likedRecipes')) || []; const targetRecipe = displayedRecipes[currentCardIndex]; if (!likedRecipes.some(r => r.id === targetRecipe.id)) { likedRecipes.push(targetRecipe); localStorage.setItem('likedRecipes', JSON.stringify(likedRecipes)); } } setTimeout(() => { currentCard.remove(); currentCardIndex++; showNextCard(); }, 500); }
-function showNextCard() { if (currentCardIndex < displayedRecipes.length) { createCard(displayedRecipes[currentCardIndex]); } else if (displayedRecipes.length > 0) { cardContainer.innerHTML = '<p style="text-align: center;">今日の候補は以上です！</p>'; } else { cardContainer.innerHTML = '<p style="text-align: center;">表示できるレシピがありません。</p>'; } }
-function renderCards() { cardContainer.innerHTML = ''; currentCardIndex = 0; showNextCard(); }
-searchBtn.addEventListener('click', () => { headerTitle.classList.toggle('hidden'); searchBar.classList.toggle('hidden'); if (!searchBar.classList.contains('hidden')) { searchBar.focus(); } if (searchBar.classList.contains('hidden')) { displayedRecipes=[...allRecipes]; renderCards(); } });
-searchBar.addEventListener('input', (e) => { const searchTerm = e.target.value.toLowerCase(); if (searchTerm === '') { displayedRecipes = [...allRecipes]; } else { displayedRecipes = allRecipes.filter(recipe => recipe.name.toLowerCase().includes(searchTerm)); } renderCards(); });
-settingsBtn.addEventListener('click', () => { if (window.confirm('本当に全てのデータを初期化しますか？ (献立・在庫・チュートリアル表示履歴が消えます)')) { localStorage.clear(); location.reload(); } });
-modalCloseBtn.addEventListener('click', closeModal);
-modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) { closeModal(); } });
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
 
-// --- アプリケーション起動 ---
+function closeModal() {
+  const video = document.querySelector('#main-media-container video');
+  if (video) { video.pause(); }
+  modalOverlay.classList.add('hidden');
+}
+
+function swipeCard(isLike) {
+  if (!currentCard) return;
+  const moveX = isLike ? window.innerWidth : -window.innerWidth;
+  currentCard.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
+  currentCard.style.transform = `translateX(${moveX}px) rotate(${moveX / 20}deg)`;
+  currentCard.classList.add('dismissing');
+  if (isLike) {
+    const likedRecipes = JSON.parse(localStorage.getItem('likedRecipes')) || [];
+    const targetRecipe = displayedRecipes[currentCardIndex];
+    if (!likedRecipes.some(r => r.id === targetRecipe.id)) {
+      likedRecipes.push(targetRecipe);
+      localStorage.setItem('likedRecipes', JSON.stringify(likedRecipes));
+    }
+  }
+  setTimeout(() => {
+    currentCard.remove();
+    currentCardIndex++;
+    showNextCard();
+  }, 500);
+}
+
+function showNextCard() {
+  if (currentCardIndex < displayedRecipes.length) {
+    createCard(displayedRecipes[currentCardIndex]);
+  } else if (displayedRecipes.length > 0) {
+    cardContainer.innerHTML = '<p style="text-align: center;">今日の候補は以上です！</p>';
+  } else {
+    cardContainer.innerHTML = '<p style="text-align: center;">表示できるレシピがありません。</p>';
+  }
+}
+
+function renderCards() {
+  cardContainer.innerHTML = '';
+  currentCardIndex = 0;
+  showNextCard();
+}
+
+searchBtn.addEventListener('click', () => {
+  headerTitle.classList.toggle('hidden');
+  searchBar.classList.toggle('hidden');
+  if (!searchBar.classList.contains('hidden')) {
+    searchBar.focus();
+  }
+  if (searchBar.classList.contains('hidden')) {
+    displayedRecipes=[...allRecipes];
+    renderCards();
+  }
+});
+
+searchBar.addEventListener('input', (e) => {
+  const searchTerm = e.target.value.toLowerCase();
+  if (searchTerm === '') {
+    displayedRecipes = [...allRecipes];
+  } else {
+    displayedRecipes = allRecipes.filter(recipe =>
+      recipe.name.toLowerCase().includes(searchTerm)
+    );
+  }
+  renderCards();
+});
+
+settingsBtn.addEventListener('click', () => {
+  if (window.confirm('本当に全てのデータを初期化しますか？ (献立・在庫・チュートリアル表示履歴が消えます)')) {
+    localStorage.clear();
+    location.reload();
+  }
+});
+
+modalCloseBtn.addEventListener('click', closeModal);
+
+modalOverlay.addEventListener('click', (e) => {
+  if (e.target === modalOverlay) {
+    closeModal();
+  }
+});
+
 initializeApp();

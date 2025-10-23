@@ -108,11 +108,10 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px; /* 隙間を調整 */
+  gap: 4px;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* ↓↓↓ ここからフッターアイコンのスタイル ↓↓↓ */
 .bottom-nav a .nav-icon {
   width: 24px;
   height: 24px;
@@ -125,7 +124,6 @@ footer {
   mask-position: center;
   transition: background-color 0.2s ease;
 }
-/* (パスは適宜修正してください) */
 #icon-home  { -webkit-mask-image: url(../assets/home.svg);  mask-image: url(../assets/home.svg); }
 #icon-menu  { -webkit-mask-image: url(../assets/menu.svg);  mask-image: url(../assets/menu.svg); }
 #icon-stock { -webkit-mask-image: url(../assets/stock.svg); mask-image: url(../assets/stock.svg); }
@@ -142,7 +140,6 @@ footer {
 .bottom-nav a.active .nav-icon {
   background-color: var(--primary-color);
 }
-/* ↑↑↑ フッターアイコンのスタイルここまで ↑↑↑ */
 
 
 /* カード */
@@ -185,12 +182,13 @@ footer {
   object-fit: cover;
   pointer-events: none;
 }
+
 .recipe-card-info {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 120px 20px 40px;
+  padding: 80px 20px 30px;
   background: linear-gradient(transparent, rgba(0,0,0,0.8));
   text-align: left;
 }
@@ -199,6 +197,12 @@ footer {
   font-size: 1.8em;
   margin: 0;
   text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+  word-wrap: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 /* リスト形式 */
@@ -217,8 +221,6 @@ footer {
   justify-content: space-between;
   align-items: center;
 }
-
-/* ↓↓↓ ごみ箱ボタンのスタイルを修正 ↓↓↓ */
 .list-item .delete-btn {
   background: none;
   border: none;
@@ -229,13 +231,12 @@ footer {
   display: inline-block;
   width: 22px;
   height: 22px;
-  background-color: #e74c3c; /* ごみ箱の色 */
+  background-color: #e74c3c;
   -webkit-mask-size: cover;
   mask-size: cover;
-  -webkit-mask-image: url(../assets/trash.svg); /* (パスは適宜修正) */
+  -webkit-mask-image: url(../assets/trash.svg);
   mask-image: url(../assets/trash.svg);
 }
-/* ↑↑↑ 修正ここまで ↑↑↑ */
 
 
 /* 献立リスト */
@@ -341,6 +342,7 @@ footer {
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
   display: flex;
   flex-direction: column;
+  position: relative; /* ★ AIボタンの位置基準のため */
 }
 #modal-media-gallery {
   margin-bottom: 15px;
@@ -413,11 +415,11 @@ footer {
   main {
     padding: 10px;
   }
-  
+
   main:has(.card-container) {
     padding: 0;
   }
-  
+
   h1 {
     font-size: 1.1em;
   }
@@ -488,7 +490,7 @@ footer {
   60% { transform: translateX(5px); }
 }
 
-/* --- スワイプ中のフィードバックバッジ (修正版) --- */
+/* --- スワイプ中のフィードバックバッジ --- */
 .swipe-badge {
   position: absolute;
   top: 40px;
@@ -556,7 +558,7 @@ footer {
 .floating-action-button {
   position: fixed;
   right: 20px;
-  bottom: 150px; /* 固定位置に修正 */
+  bottom: 150px;
   width: 56px;
   height: 56px;
   background-color: var(--primary-color);
@@ -577,3 +579,42 @@ footer {
 .floating-action-button svg {
   stroke: white;
 }
+
+/* --- ↓↓↓ モーダル内AI質問ボタンのスタイル ↓↓↓ --- */
+.modal-ai-btn {
+  position: absolute; /* モーダルコンテンツ基準 */
+  bottom: 15px; /* 下からの位置 */
+  right: 15px; /* 右からの位置 */
+  z-index: 10; /* 他の要素より手前 */
+  background: none;
+  border: none;
+  padding: 8px; /* アイコン周りのタッチ領域確保 */
+  cursor: pointer;
+  border-radius: 50%;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  width: 48px; /* サイズ調整 */
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-ai-btn:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.modal-ai-btn:active {
+  transform: scale(0.9);
+}
+
+/* ★★★ モーダル内のコメントアイコンのスタイル ★★★ */
+.modal-ai-btn .icon-comment { /* セレクタを詳細に */
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  background-color: var(--primary-color); /* アイコンの色をオレンジに */
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  -webkit-mask-image: url(../assets/comment.svg);
+  mask-image: url(../assets/comment.svg);
+  filter: none; /* 影は不要 */
+}
+/* ↑↑↑ 追記・修正ここまで ↑↑↑ */

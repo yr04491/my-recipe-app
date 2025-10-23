@@ -21,6 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
     mainMediaContainer.innerHTML = ''; 
     thumbnailContainer.innerHTML = '';
 
+    // ↓↓↓ AIボタン要素を取得 ↓↓↓
+    const modalAiBtn = document.getElementById('modal-ai-btn');
+    // ↑↑↑ 追加 ↑↑↑
+
     function showMedia(mediaItem) { 
         mainMediaContainer.innerHTML = ''; 
         if (mediaItem.type === 'image') { 
@@ -45,6 +49,20 @@ document.addEventListener('DOMContentLoaded', () => {
       }); 
       thumbnailContainer.appendChild(thumb); 
     });
+
+    // ↓↓↓ AIボタンにイベントリスナーを設定 ↓↓↓
+    // 古いリスナーを削除（重複登録防止）
+    const newAiBtn = modalAiBtn.cloneNode(true);
+    modalAiBtn.parentNode.replaceChild(newAiBtn, modalAiBtn);
+
+    newAiBtn.onclick = (e) => { // onclick を使うことで古いリスナーを確実に上書き
+        e.stopPropagation();
+        if (window.confirm(`「${recipe.name}」について\nAIに質問しますか？`)) {
+            console.log('AIに質問します');
+        }
+    };
+    // ↑↑↑ 追加ここまで ↑↑↑
+
     modalOverlay.classList.remove('hidden');
   }
   
@@ -71,9 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'delete-btn';
-        // ↓↓↓ ここを修正（絵文字 🗑️ から <i> タグに変更） ↓↓↓
         deleteBtn.innerHTML = '<i class="icon-trash"></i>';
-        // ↑↑↑ 修正ここまで ↑↑↑
         deleteBtn.addEventListener('click', () => {
           if (window.confirm(`「${recipe.name}」を献立から削除しますか？`)) {
             likedRecipes.splice(index, 1);

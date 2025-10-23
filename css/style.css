@@ -561,7 +561,7 @@ footer {
 .floating-action-button {
   position: fixed;
   right: 20px;
-  bottom: 300px;
+  bottom: 150px;
   width: 56px;
   height: 56px;
   background-color: var(--primary-color);

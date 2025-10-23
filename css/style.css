@@ -342,7 +342,7 @@ footer {
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
   display: flex;
   flex-direction: column;
-  position: relative; /* ★ AIボタンの位置基準のため */
+  position: relative;
 }
 #modal-media-gallery {
   margin-bottom: 15px;
@@ -398,19 +398,18 @@ footer {
   margin: 8px 0;
   font-size: 0.9em;
 }
+
+/* ★★★ モーダル閉じるボタン（元のスタイルに戻す） ★★★ */
 #modal-close-btn {
-  /* margin-top: 20px; は削除またはコメントアウト */
-  /* align-self: flex-end; は削除またはコメントアウト */
-  position: absolute; /* ★ 位置指定のために追加 */
-  bottom: 150px; /* ★ 画面下から150pxの位置に指定 */
-  right: 25px;   /* ★ 右からの位置も指定 (元々の padding: 20px 25px; に合わせる) */
+  margin-top: 20px; /* 上にスペースを確保 */
   padding: 10px 15px;
   border: none;
   background-color: var(--primary-color);
   color: white;
   border-radius: 8px;
   cursor: pointer;
-  z-index: 15; /* ★ AIボタンより手前に表示させる */
+  align-self: flex-end; /* 右寄せ */
+  /* position, bottom, right, z-index は削除 */
 }
 
 /* レスポンシブ */
@@ -562,7 +561,7 @@ footer {
 .floating-action-button {
   position: fixed;
   right: 20px;
-  bottom: 150px;
+  bottom: 300px;
   width: 56px;
   height: 56px;
   background-color: var(--primary-color);
@@ -584,19 +583,19 @@ footer {
   stroke: white;
 }
 
-/* --- ↓↓↓ モーダル内AI質問ボタンのスタイル ↓↓↓ --- */
+/* --- ★★★ モーダル内AI質問ボタンのスタイル ★★★ --- */
 .modal-ai-btn {
-  position: absolute; /* モーダルコンテンツ基準 */
-  bottom: 250px; /* 下からの位置 */
-  right: 15px; /* 右からの位置 */
-  z-index: 10; /* 他の要素より手前 */
+  position: absolute;
+  bottom: 150px; /* ★ 画面下から200pxの位置に指定 */
+  right: 15px;   /* 左からの位置は維持 */
+  z-index: 10;
   background: none;
   border: none;
-  padding: 8px; /* アイコン周りのタッチ領域確保 */
+  padding: 8px;
   cursor: pointer;
   border-radius: 50%;
   transition: transform 0.2s ease, background-color 0.2s ease;
-  width: 48px; /* サイズ調整 */
+  width: 48px;
   height: 48px;
   display: flex;
   align-items: center;
@@ -609,16 +608,14 @@ footer {
   transform: scale(0.9);
 }
 
-/* ★★★ モーダル内のコメントアイコンのスタイル ★★★ */
-.modal-ai-btn .icon-comment { /* セレクタを詳細に */
+.modal-ai-btn .icon-comment {
   display: inline-block;
   width: 28px;
   height: 28px;
-  background-color: var(--primary-color); /* アイコンの色をオレンジに */
+  background-color: var(--primary-color);
   -webkit-mask-size: cover;
   mask-size: cover;
   -webkit-mask-image: url(../assets/comment.svg);
   mask-image: url(../assets/comment.svg);
-  filter: none; /* 影は不要 */
+  filter: none;
 }
-/* ↑↑↑ 追記・修正ここまで ↑↑↑ */
